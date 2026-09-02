@@ -3,99 +3,323 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>EcoPunto · Propuesta de Piloto</title>
-<meta property="og:title" content="EcoPunto — Propuesta de Piloto" />
-<meta property="og:description" content="Video de la propuesta del programa piloto EcoPunto." />
+<title>EcoPunto · Presentación de la nueva solución</title>
+<meta name="description" content="EcoPunto — Sistema Inteligente de Optimización de Residuos. Módulo 4 · Descubriendo el IoT y sus aplicaciones · Tecnológico de Monterrey." />
+<meta property="og:title" content="EcoPunto — Presentación de la nueva solución" />
+<meta property="og:description" content="Sistema Inteligente de Optimización de Residuos · Módulo 4 · Descubriendo el IoT y sus aplicaciones" />
 <meta property="og:type" content="video.other" />
 <meta property="og:video" content="https://miguelin777.github.io/ecopunto-piloto/ecopunto-piloto-propuesta.mp4" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --bg:#0b1a12;
-    --panel:#0f241a;
-    --line:#1e4232;
-    --text:#eafff3;
-    --muted:#8fbfa8;
-    --accent:#37d67a;
+    --bg:#04120c;
+    --panel:rgba(9,32,22,.72);
+    --line:rgba(64,220,150,.18);
+    --line-strong:rgba(64,220,150,.42);
+    --text:#e9fff4;
+    --muted:#93c4ac;
+    --green:#2fe38a;
+    --cyan:#25d3ee;
+    --grad:linear-gradient(120deg,#2fe38a 0%,#25d3ee 100%);
+    --shadow:0 30px 80px -22px rgba(0,0,0,.72);
   }
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
   body{
-    min-height:100vh;
-    background:radial-gradient(1200px 600px at 50% -10%, #12301f 0%, var(--bg) 60%);
+    background:var(--bg);
     color:var(--text);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    padding:32px 20px;
-    gap:22px;
+    font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
   }
-  header{text-align:center;max-width:760px}
+
+  /* ---- animated backdrop ---- */
+  #net{position:fixed;inset:0;z-index:0;display:block;opacity:.5}
+  .glow{position:fixed;z-index:0;border-radius:50%;filter:blur(95px);opacity:.5;pointer-events:none}
+  .glow.g1{width:520px;height:520px;background:#0f7a4d;top:-170px;left:-130px;animation:float1 17s ease-in-out infinite}
+  .glow.g2{width:460px;height:460px;background:#0c6f86;bottom:-190px;right:-120px;animation:float2 21s ease-in-out infinite}
+  @keyframes float1{50%{transform:translate(120px,90px) scale(1.12)}}
+  @keyframes float2{50%{transform:translate(-110px,-60px) scale(1.08)}}
+
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;background:var(--grad);z-index:60;box-shadow:0 0 16px rgba(47,227,138,.7);transition:width .1s linear}
+
+  .wrap{position:relative;z-index:2;max-width:1080px;margin:0 auto;padding:0 24px}
+
+  /* ---- top bar ---- */
+  header.top{
+    position:relative;z-index:3;display:flex;justify-content:space-between;align-items:center;gap:18px;
+    max-width:1080px;margin:0 auto;padding:22px 24px;
+  }
+  .mark{display:flex;align-items:center;gap:11px;font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:18px;letter-spacing:.01em}
+  .mark svg{width:26px;height:26px;flex:none}
+  .mark .dot{position:relative;width:9px;height:9px;border-radius:50%;background:var(--green)}
+  .mark .dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--green);animation:ping 2.6s cubic-bezier(0,0,.2,1) infinite}
+  @keyframes ping{0%{transform:scale(1);opacity:.7}80%,100%{transform:scale(3.6);opacity:0}}
+  .top .inst{font-size:12px;color:var(--muted);text-align:right;letter-spacing:.03em;line-height:1.5}
+
+  /* ---- hero ---- */
+  .hero{padding:72px 0 44px;text-align:center}
   .kicker{
-    display:inline-block;
-    font-size:12px;
-    letter-spacing:.18em;
-    text-transform:uppercase;
-    color:var(--accent);
-    border:1px solid var(--line);
-    border-radius:999px;
-    padding:6px 14px;
-    margin-bottom:14px;
+    display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--green);border:1px solid var(--line-strong);border-radius:999px;padding:9px 18px;margin-bottom:26px;
+    background:rgba(47,227,138,.06);
   }
-  h1{font-size:clamp(24px,4vw,38px);margin:0 0 8px;font-weight:700}
-  p.sub{margin:0;color:var(--muted);font-size:15px;line-height:1.5}
-  .frame{
-    width:min(960px,100%);
-    background:var(--panel);
-    border:1px solid var(--line);
-    border-radius:16px;
-    padding:12px;
-    box-shadow:0 24px 60px rgba(0,0,0,.45);
+  h1.title{
+    font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:clamp(58px,14vw,150px);line-height:.94;letter-spacing:-.03em;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;position:relative;display:inline-block;
   }
-  video{
-    width:100%;
-    display:block;
-    border-radius:10px;
-    background:#000;
-    aspect-ratio:16/9;
+  h1.title::after{
+    content:attr(data-text);position:absolute;left:0;top:0;
+    background:linear-gradient(100deg,transparent 32%,rgba(255,255,255,.8) 50%,transparent 68%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    background-size:250% 100%;animation:sheen 6.5s ease-in-out infinite;
   }
-  .actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
-  a.btn{
-    text-decoration:none;
-    font-size:14px;
-    font-weight:600;
-    padding:11px 18px;
-    border-radius:10px;
-    border:1px solid var(--line);
-    color:var(--text);
-    transition:transform .12s ease, background .12s ease;
+  @keyframes sheen{0%,55%{background-position:150% 0}100%{background-position:-150% 0}}
+  .tag{margin-top:20px;font-size:clamp(16px,2.4vw,22px);font-weight:500}
+  .tag b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:600}
+  .sub{margin-top:8px;color:var(--muted);font-size:13.5px;letter-spacing:.05em;text-transform:uppercase}
+  .cue{margin-top:56px;display:inline-flex;flex-direction:column;align-items:center;gap:10px;color:var(--muted);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase}
+  .cue .arrow{width:20px;height:20px;border-right:2px solid var(--green);border-bottom:2px solid var(--green);transform:rotate(45deg);animation:bob 1.9s ease-in-out infinite}
+  @keyframes bob{50%{transform:rotate(45deg) translate(4px,4px)}}
+
+  section{padding:62px 0;position:relative;z-index:2}
+  .label{display:flex;align-items:center;gap:14px;margin-bottom:30px;font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:12.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
+  .label::before{content:"";width:34px;height:2px;background:var(--grad);flex:none}
+  .label::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+
+  /* ---- video ---- */
+  .stage{position:relative;border-radius:22px;padding:14px;background:var(--panel);border:1px solid var(--line);box-shadow:var(--shadow)}
+  .stage::before{
+    content:"";position:absolute;inset:-1px;border-radius:23px;padding:1px;background:var(--grad);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+    mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;opacity:.5;pointer-events:none;
   }
-  a.btn:hover{transform:translateY(-1px)}
-  a.btn.primary{background:var(--accent);color:#06210f;border-color:transparent}
-  footer{color:var(--muted);font-size:12px;text-align:center}
+  .stage video{display:block;width:100%;border-radius:13px;background:#000;aspect-ratio:16/9}
+  .playbtn{
+    position:absolute;inset:14px;display:flex;align-items:center;justify-content:center;border-radius:13px;cursor:pointer;
+    background:radial-gradient(circle at 50% 45%,rgba(4,18,12,.05),rgba(4,18,12,.5));transition:opacity .45s ease;
+  }
+  .playbtn.hidden{opacity:0;pointer-events:none}
+  .playbtn i{
+    width:82px;height:82px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;
+    animation:ring 2.8s ease-out infinite;
+  }
+  @keyframes ring{0%{box-shadow:0 0 0 0 rgba(47,227,138,.45)}70%{box-shadow:0 0 0 32px rgba(47,227,138,0)}100%{box-shadow:0 0 0 0 rgba(47,227,138,0)}}
+  .playbtn i::before{content:"";border-style:solid;border-width:15px 0 15px 25px;border-color:transparent transparent transparent #04120c;margin-left:6px}
+  .actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:22px}
+  .btn{
+    text-decoration:none;font-weight:600;font-size:14px;padding:12px 22px;border-radius:12px;border:1px solid var(--line-strong);
+    color:var(--text);display:inline-flex;align-items:center;gap:9px;transition:transform .16s ease,border-color .16s ease,background .16s ease;
+  }
+  .btn:hover{transform:translateY(-2px);border-color:var(--green)}
+  .btn.primary{background:var(--grad);color:#04120c;border-color:transparent}
+
+  /* ---- team ---- */
+  .team{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .member{
+    position:relative;padding:28px 26px;border-radius:18px;background:var(--panel);border:1px solid var(--line);
+    overflow:hidden;transition:transform .28s cubic-bezier(.2,.7,.2,1),border-color .28s ease;
+  }
+  .member:nth-child(5){grid-column:1 / -1}
+  .member::after{content:"";position:absolute;left:0;top:0;height:100%;width:3px;background:var(--grad);transform:scaleY(0);transform-origin:top;transition:transform .38s ease}
+  .member:hover{transform:translateY(-5px);border-color:var(--line-strong)}
+  .member:hover::after{transform:scaleY(1)}
+  .member .num{position:absolute;right:14px;bottom:-16px;font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:92px;line-height:1;color:rgba(47,227,138,.07)}
+  .member .name{
+    position:relative;font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:clamp(24px,3.6vw,37px);
+    letter-spacing:-.015em;line-height:1.14;
+  }
+  .member:hover .name{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .member .mat{
+    position:relative;margin-top:14px;display:inline-block;font-family:"Space Grotesk",sans-serif;font-size:12.5px;
+    letter-spacing:.16em;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 13px;
+  }
+  .prof{margin-top:22px;text-align:center;color:var(--muted);font-size:14px;letter-spacing:.04em}
+  .prof b{color:var(--text);font-family:"Space Grotesk",sans-serif;font-weight:600}
+
+  /* ---- footer ---- */
+  footer{position:relative;z-index:2;text-align:center;padding:58px 24px 72px;border-top:1px solid var(--line);margin-top:36px}
+  footer .big{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:19px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  footer .meta{margin-top:8px;color:var(--muted);font-size:12.5px;letter-spacing:.05em}
+
+  /* ---- entrance animation ----
+     Content is VISIBLE by default. The fade-up is a pure-CSS enhancement that
+     only engages when the user has no reduced-motion preference, so the page can
+     never get stuck blank if animations don't run. */
+  @keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:no-preference){
+    .reveal{opacity:0;animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+    .hero .kicker{animation-delay:.05s}
+    .hero .title{animation-delay:.12s;animation-duration:.9s}
+    .hero .tag{animation-delay:.24s}
+    .hero .sub{animation-delay:.34s}
+    .hero .cue{animation-delay:.5s}
+    #video .label{animation-delay:.1s}
+    #video .stage{animation-delay:.18s}
+    #video .actions{animation-delay:.28s}
+    #equipo .label{animation-delay:.1s}
+    .team .member:nth-child(1){animation-delay:.12s}
+    .team .member:nth-child(2){animation-delay:.19s}
+    .team .member:nth-child(3){animation-delay:.26s}
+    .team .member:nth-child(4){animation-delay:.33s}
+    .team .member:nth-child(5){animation-delay:.4s}
+    #equipo .prof{animation-delay:.48s}
+  }
+
+  @media (max-width:720px){
+    .team{grid-template-columns:1fr}
+    .member:nth-child(5){grid-column:auto}
+    header.top .inst{display:none}
+    .hero{padding:52px 0 34px}
+    .kicker{border:none;background:none;padding:0;font-size:11px;letter-spacing:.16em;line-height:1.7;margin-bottom:22px}
+    .member .num{font-size:74px}
+    section{padding:52px 0}
+  }
+  @media (max-width:420px){
+    .member .name{font-size:22px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    #net{display:none}
+  }
 </style>
 </head>
 <body>
-  <header>
-    <span class="kicker">Propuesta de Piloto</span>
-    <h1>EcoPunto</h1>
-    <p class="sub">Video de presentación de la propuesta del programa piloto.</p>
-  </header>
+<div id="bar"></div>
+<canvas id="net"></canvas>
+<div class="glow g1"></div>
+<div class="glow g2"></div>
 
-  <div class="frame">
-    <video controls preload="metadata" playsinline>
-      <source src="ecopunto-piloto-propuesta.mp4" type="video/mp4" />
-      Tu navegador no puede reproducir este video.
-      <a href="ecopunto-piloto-propuesta.mp4">Descárgalo aquí</a>.
-    </video>
+<header class="top">
+  <div class="mark">
+    <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <defs><linearGradient id="lg" x1="0" y1="0" x2="32" y2="32">
+        <stop offset="0" stop-color="#2fe38a"/><stop offset="1" stop-color="#25d3ee"/>
+      </linearGradient></defs>
+      <path d="M16 27c7-3 11-8 11-15V6l-6 1C11 8 6 12 6 20c0 3 1 5 3 7 2-6 6-10 12-13-5 4-8 8-9 13Z" fill="url(#lg)"/>
+    </svg>
+    <span class="dot"></span> EcoPunto
   </div>
+  <div class="inst">Tecnológico de Monterrey<br />Descubriendo el IoT y sus aplicaciones · Gpo 573</div>
+</header>
 
-  <div class="actions">
-    <a class="btn primary" href="ecopunto-piloto-propuesta.mp4" download>Descargar video (MP4)</a>
-    <a class="btn" href="https://github.com/miguelin777/ecopunto-piloto">Ver repositorio</a>
-  </div>
+<div class="wrap">
+  <section class="hero">
+    <div class="kicker reveal">Módulo 4 · Presentación de la nueva solución</div>
+    <h1 class="title reveal" data-text="EcoPunto">EcoPunto</h1>
+    <p class="tag reveal">Sistema Inteligente de <b>Optimización de Residuos</b></p>
+    <p class="sub reveal">Durante clase · Actividades de aprendizaje</p>
+    <div class="cue reveal">Ver la propuesta <span class="arrow"></span></div>
+  </section>
 
-  <footer>EcoPunto · alojado en GitHub Pages</footer>
+  <section id="video">
+    <div class="label reveal">La propuesta en video</div>
+    <div class="stage reveal">
+      <video id="v" controls preload="metadata" playsinline>
+        <source src="ecopunto-piloto-propuesta.mp4#t=0.1" type="video/mp4" />
+        Tu navegador no puede reproducir el video.
+        <a href="ecopunto-piloto-propuesta.mp4">Descárgalo aquí</a>.
+      </video>
+      <div class="playbtn" id="pb" role="button" aria-label="Reproducir video"><i></i></div>
+    </div>
+    <div class="actions reveal">
+      <a class="btn primary" href="ecopunto-piloto-propuesta.mp4" download>Descargar video (MP4)</a>
+      <a class="btn" href="https://github.com/miguelin777/ecopunto-piloto" target="_blank" rel="noopener">Ver repositorio</a>
+    </div>
+  </section>
+
+  <section id="equipo">
+    <div class="label reveal">El equipo</div>
+    <div class="team">
+      <div class="member reveal"><span class="num">01</span><div class="name">Rodrigo Garza Martínez</div><span class="mat">A00841610</span></div>
+      <div class="member reveal"><span class="num">02</span><div class="name">Alejandra Assad Villarreal</div><span class="mat">A00845102</span></div>
+      <div class="member reveal"><span class="num">03</span><div class="name">Daniela Maldonado Domínguez</div><span class="mat">A01277839</span></div>
+      <div class="member reveal"><span class="num">04</span><div class="name">Miguel Huizache Vázquez</div><span class="mat">A01713936</span></div>
+      <div class="member reveal"><span class="num">05</span><div class="name">José Carlos Acosta Páez</div><span class="mat">A01649133</span></div>
+    </div>
+    <p class="prof reveal">Profesor · <b>Alejandro Aragón Zavala</b></p>
+  </section>
+</div>
+
+<footer>
+  <div class="big">Tecnológico de Monterrey</div>
+  <div class="meta">Descubriendo el IoT y sus aplicaciones · Grupo 573 · 27 de agosto de 2026</div>
+</footer>
+
+<script>
+  (function(){
+    var rm = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+    /* scroll progress */
+    var bar = document.getElementById('bar');
+    addEventListener('scroll', function(){
+      var d = document.documentElement;
+      var p = d.scrollTop / (d.scrollHeight - d.clientHeight || 1);
+      bar.style.width = (p * 100) + '%';
+    }, {passive:true});
+
+    /* custom play button */
+    var v = document.getElementById('v'), pb = document.getElementById('pb');
+    pb.addEventListener('click', function(){ v.play(); });
+    v.addEventListener('play', function(){ pb.classList.add('hidden'); });
+    v.addEventListener('pause', function(){ if(v.currentTime === 0 || v.ended) pb.classList.remove('hidden'); });
+
+    /* ---- IoT network canvas ---- */
+    if(rm) return;
+    var c = document.getElementById('net'), x = c.getContext('2d');
+    var w, h, dpr, nodes, raf, mouse = {x:-9999, y:-9999};
+
+    function size(){
+      dpr = Math.min(devicePixelRatio || 1, 2);
+      w = c.width = innerWidth * dpr;
+      h = c.height = innerHeight * dpr;
+      c.style.width = innerWidth + 'px';
+      c.style.height = innerHeight + 'px';
+      var n = innerWidth < 720 ? 34 : innerWidth < 1100 ? 54 : 76;
+      nodes = [];
+      for(var i=0;i<n;i++) nodes.push({
+        x:Math.random()*w, y:Math.random()*h,
+        vx:(Math.random()-.5)*.22*dpr, vy:(Math.random()-.5)*.22*dpr
+      });
+    }
+    function tick(){
+      x.clearRect(0,0,w,h);
+      var R = 150 * dpr, i, j;
+      for(i=0;i<nodes.length;i++){
+        var n = nodes[i];
+        n.x += n.vx; n.y += n.vy;
+        if(n.x < 0 || n.x > w) n.vx *= -1;
+        if(n.y < 0 || n.y > h) n.vy *= -1;
+      }
+      for(i=0;i<nodes.length;i++){
+        var a = nodes[i];
+        for(j=i+1;j<nodes.length;j++){
+          var b = nodes[j];
+          var dx = a.x-b.x, dy = a.y-b.y, d = Math.sqrt(dx*dx+dy*dy);
+          if(d < R){
+            var o = (1 - d/R) * .5;
+            x.strokeStyle = 'rgba(47,227,138,' + o + ')';
+            x.lineWidth = dpr;
+            x.beginPath(); x.moveTo(a.x,a.y); x.lineTo(b.x,b.y); x.stroke();
+          }
+        }
+        var mdx = a.x-mouse.x, mdy = a.y-mouse.y;
+        var near = (mdx*mdx + mdy*mdy) < (130*dpr)*(130*dpr);
+        x.fillStyle = near ? '#25d3ee' : 'rgba(47,227,138,.9)';
+        x.beginPath(); x.arc(a.x, a.y, (near ? 3.2 : 1.9) * dpr, 0, 7); x.fill();
+      }
+      raf = requestAnimationFrame(tick);
+    }
+    size(); tick();
+    addEventListener('resize', function(){ cancelAnimationFrame(raf); size(); tick(); });
+    addEventListener('mousemove', function(e){ mouse.x = e.clientX * dpr; mouse.y = e.clientY * dpr; });
+    addEventListener('mouseout', function(){ mouse.x = mouse.y = -9999; });
+    document.addEventListener('visibilitychange', function(){
+      if(document.hidden) cancelAnimationFrame(raf); else tick();
+    });
+  })();
+</script>
 </body>
 </html>
