@@ -184,6 +184,31 @@
   @media (prefers-reduced-motion:reduce){
     #net{display:none}
   }
+
+  /* ---- comet cursor (pointers with a fine device only) ---- */
+  #comet,#cometTrail{position:fixed;left:0;top:0;pointer-events:none;z-index:9999}
+  #comet{width:0;height:0;opacity:0;transition:opacity .3s ease}
+  #comet i{
+    position:absolute;left:0;top:0;display:block;width:15px;height:15px;margin:-7.5px 0 0 -7.5px;border-radius:50%;
+    background:radial-gradient(circle at 50% 50%,#ffffff 0%,#8affce 38%,rgba(47,227,138,0) 74%);
+    box-shadow:0 0 12px 3px rgba(47,227,138,.6),0 0 34px 10px rgba(37,211,238,.28);
+    transition:transform .22s cubic-bezier(.2,.7,.2,1),background .22s ease,box-shadow .22s ease;
+  }
+  #comet.hot i{
+    transform:scale(2.9);
+    background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.10) 0%,rgba(138,255,206,.14) 46%,rgba(37,211,238,0) 74%);
+    box-shadow:0 0 0 1.6px rgba(138,255,206,.9),0 0 22px 6px rgba(47,227,138,.4);
+  }
+  #comet.click i{transform:scale(.55)}
+  #cometTrail{width:100vw;height:100vh}
+  @media (pointer:fine) and (hover:hover){
+    html.comet body{cursor:none}
+    html.comet a,html.comet button,html.comet .btn,html.comet [role="button"],html.comet .member,html.comet .cue{cursor:none}
+    html.comet video{cursor:auto}
+  }
+  @media (prefers-reduced-motion:reduce){
+    #cometTrail{display:none}
+  }
 </style>
 </head>
 <body>
@@ -191,6 +216,8 @@
 <canvas id="net"></canvas>
 <div class="glow g1"></div>
 <div class="glow g2"></div>
+<canvas id="cometTrail" aria-hidden="true"></canvas>
+<div id="comet" aria-hidden="true"><i></i></div>
 
 <header class="top">
   <div class="mark">
@@ -318,6 +345,98 @@
     addEventListener('mouseout', function(){ mouse.x = mouse.y = -9999; });
     document.addEventListener('visibilitychange', function(){
       if(document.hidden) cancelAnimationFrame(raf); else tick();
+    });
+  })();
+
+  /* ---- comet cursor ---- */
+  (function(){
+    if(!(matchMedia('(pointer:fine)').matches && matchMedia('(hover:hover)').matches)) return;
+    var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var root = document.documentElement;
+    var comet = document.getElementById('comet');
+    var cv = document.getElementById('cometTrail');
+    var cx = cv.getContext('2d');
+    root.classList.add('comet');
+
+    var dpr = Math.min(devicePixelRatio || 1, 2);
+    function resize(){
+      dpr = Math.min(devicePixelRatio || 1, 2);
+      cv.width = innerWidth * dpr; cv.height = innerHeight * dpr;
+      cv.style.width = innerWidth + 'px'; cv.style.height = innerHeight + 'px';
+    }
+    resize();
+    addEventListener('resize', resize);
+
+    var mx = innerWidth / 2, my = innerHeight / 2;
+    var hx = mx, hy = my, px = mx, py = my;
+    var parts = [], started = false, raf2;
+
+    addEventListener('mousemove', function(e){
+      mx = e.clientX; my = e.clientY;
+      if(!started){ started = true; hx = px = mx; hy = py = my; }
+      comet.style.opacity = '1';
+    }, {passive:true});
+    document.addEventListener('mouseleave', function(){ comet.style.opacity = '0'; });
+    document.addEventListener('mouseenter', function(){ comet.style.opacity = '1'; });
+    addEventListener('mousedown', function(){ comet.classList.add('click'); });
+    addEventListener('mouseup', function(){ comet.classList.remove('click'); });
+
+    var HOT = 'a,button,.btn,[role="button"],.member,.cue,#pb';
+    document.addEventListener('mouseover', function(e){
+      if(e.target.closest && e.target.closest(HOT)) comet.classList.add('hot');
+    });
+    document.addEventListener('mouseout', function(e){
+      var to = e.relatedTarget;
+      if(e.target.closest && e.target.closest(HOT) && !(to && to.closest && to.closest(HOT)))
+        comet.classList.remove('hot');
+    });
+
+    function frame(){
+      hx += (mx - hx) * 0.22;
+      hy += (my - hy) * 0.22;
+      var vx = hx - px, vy = hy - py;
+      px = hx; py = hy;
+      comet.style.transform = 'translate3d(' + hx + 'px,' + hy + 'px,0)';
+
+      if(!reduce){
+        var hot = comet.classList.contains('hot');
+        var speed = Math.sqrt(vx*vx + vy*vy);
+        var count = 1 + Math.min(3, Math.floor(speed / 6));
+        for(var i=0;i<count;i++){
+          var t = i / count;
+          parts.push({
+            x: (hx - vx * t) * dpr,
+            y: (hy - vy * t) * dpr,
+            vx: (-vx * 0.10 + (Math.random()-0.5) * 0.7) * dpr,
+            vy: (-vy * 0.10 + (Math.random()-0.5) * 0.7) * dpr,
+            life: 1,
+            r: (hot ? 2.7 : 1.9) * dpr * (0.7 + Math.random() * 0.6)
+          });
+        }
+        if(parts.length > 100) parts.splice(0, parts.length - 100);
+
+        cx.clearRect(0, 0, cv.width, cv.height);
+        cx.globalCompositeOperation = 'lighter';
+        for(var j=parts.length-1;j>=0;j--){
+          var p = parts[j];
+          p.x += p.vx; p.y += p.vy; p.life -= 0.045;
+          if(p.life <= 0){ parts.splice(j, 1); continue; }
+          var a = p.life, rad = p.r * 3.2;
+          var g = cx.createRadialGradient(p.x, p.y, 0, p.x, p.y, rad);
+          g.addColorStop(0, 'rgba(190,255,225,' + (a * 0.9) + ')');
+          g.addColorStop(0.4, 'rgba(47,227,138,' + (a * 0.5) + ')');
+          g.addColorStop(1, 'rgba(37,211,238,0)');
+          cx.fillStyle = g;
+          cx.beginPath(); cx.arc(p.x, p.y, rad, 0, 7); cx.fill();
+        }
+        cx.globalCompositeOperation = 'source-over';
+      }
+      raf2 = requestAnimationFrame(frame);
+    }
+    raf2 = requestAnimationFrame(frame);
+    document.addEventListener('visibilitychange', function(){
+      if(document.hidden){ cancelAnimationFrame(raf2); }
+      else { raf2 = requestAnimationFrame(frame); }
     });
   })();
 </script>
