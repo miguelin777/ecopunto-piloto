@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>EcoPunto · Propuesta de Piloto</title>
+<meta property="og:title" content="EcoPunto — Propuesta de Piloto" />
+<meta property="og:description" content="Video de la propuesta del programa piloto EcoPunto." />
+<meta property="og:type" content="video.other" />
+<meta property="og:video" content="https://miguelin777.github.io/ecopunto-piloto/ecopunto-piloto-propuesta.mp4" />
+<style>
+  :root{
+    --bg:#0b1a12;
+    --panel:#0f241a;
+    --line:#1e4232;
+    --text:#eafff3;
+    --muted:#8fbfa8;
+    --accent:#37d67a;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    min-height:100vh;
+    background:radial-gradient(1200px 600px at 50% -10%, #12301f 0%, var(--bg) 60%);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:32px 20px;
+    gap:22px;
+  }
+  header{text-align:center;max-width:760px}
+  .kicker{
+    display:inline-block;
+    font-size:12px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--accent);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:6px 14px;
+    margin-bottom:14px;
+  }
+  h1{font-size:clamp(24px,4vw,38px);margin:0 0 8px;font-weight:700}
+  p.sub{margin:0;color:var(--muted);font-size:15px;line-height:1.5}
+  .frame{
+    width:min(960px,100%);
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:12px;
+    box-shadow:0 24px 60px rgba(0,0,0,.45);
+  }
+  video{
+    width:100%;
+    display:block;
+    border-radius:10px;
+    background:#000;
+    aspect-ratio:16/9;
+  }
+  .actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+  a.btn{
+    text-decoration:none;
+    font-size:14px;
+    font-weight:600;
+    padding:11px 18px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    color:var(--text);
+    transition:transform .12s ease, background .12s ease;
+  }
+  a.btn:hover{transform:translateY(-1px)}
+  a.btn.primary{background:var(--accent);color:#06210f;border-color:transparent}
+  footer{color:var(--muted);font-size:12px;text-align:center}
+</style>
+</head>
+<body>
+  <header>
+    <span class="kicker">Propuesta de Piloto</span>
+    <h1>EcoPunto</h1>
+    <p class="sub">Video de presentación de la propuesta del programa piloto.</p>
+  </header>
+
+  <div class="frame">
+    <video controls preload="metadata" playsinline>
+      <source src="ecopunto-piloto-propuesta.mp4" type="video/mp4" />
+      Tu navegador no puede reproducir este video.
+      <a href="ecopunto-piloto-propuesta.mp4">Descárgalo aquí</a>.
+    </video>
+  </div>
+
+  <div class="actions">
+    <a class="btn primary" href="ecopunto-piloto-propuesta.mp4" download>Descargar video (MP4)</a>
+    <a class="btn" href="https://github.com/miguelin777/ecopunto-piloto">Ver repositorio</a>
+  </div>
+
+  <footer>EcoPunto · alojado en GitHub Pages</footer>
+</body>
+</html>
