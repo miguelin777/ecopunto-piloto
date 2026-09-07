@@ -1,0 +1,32 @@
+{
+  "name": "EcoPunto Monitor",
+  "short_name": "EcoPunto",
+  "description": "Monitoreo en vivo de las estaciones del piloto EcoPunto. Datos simulados por EcoPunto Lab.",
+  "lang": "es",
+  "start_url": "/ecopunto-piloto/app/",
+  "scope": "/ecopunto-piloto/app/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#131F29",
+  "background_color": "#131F29",
+  "icons": [
+    {
+      "src": "/ecopunto-piloto/app/adaptive-icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/ecopunto-piloto/app/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/ecopunto-piloto/app/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
