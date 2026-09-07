@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>EcoPunto · página no encontrada</title>
+<meta name="theme-color" content="#04120c" />
+<link rel="icon" type="image/svg+xml" href="/ecopunto-piloto/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+<script>
+  /*
+   * EcoPunto Monitor es una sola página: las rutas (/estaciones, /prioridades,
+   * /estacion/CAF-01) las resuelve el enrutador en el cliente, sin pedirle
+   * nada al servidor. GitHub Pages no lo sabe, así que si alguien RECARGA
+   * estando en una de esas rutas responde 404 — y solo mira el 404.html de la
+   * raíz del sitio, no el de la subcarpeta.
+   *
+   * Se devuelve a la entrada de la app conservando la consulta (ahí va el
+   * código de sala). No se intenta restaurar la ruta exacta a propósito: sin
+   * sala, cualquier pantalla de la app enseña la portada igualmente.
+   */
+  (function () {
+    var p = location.pathname;
+    var app = '/ecopunto-piloto/app/';
+    var lab = '/ecopunto-piloto/lab/';
+    if (p.indexOf(app) === 0 && p !== app) { location.replace(app + location.search + location.hash); }
+    else if (p.indexOf(lab) === 0 && p !== lab) { location.replace(lab + location.search + location.hash); }
+  })();
+</script>
+<style>
+  :root{
+    --bg:#04120c; --panel:rgba(9,32,22,.72); --line:rgba(64,220,150,.18);
+    --line-strong:rgba(64,220,150,.42); --text:#eaf7f0; --muted:#93c4ac;
+    --green:#2fe38a; --grad:linear-gradient(120deg,#2fe38a 0%,#25d3ee 100%);
+  }
+  *{box-sizing:border-box;margin:0}
+  body{
+    min-height:100vh; background:
+      radial-gradient(900px 500px at 15% -10%, rgba(47,227,138,.12), transparent 60%),
+      radial-gradient(700px 420px at 100% 100%, rgba(37,211,238,.10), transparent 60%),
+      var(--bg);
+    color:var(--text); font-family:Inter,system-ui,sans-serif;
+    display:grid; place-items:center; padding:28px;
+  }
+  .caja{width:min(560px,100%);padding:40px 34px;border-radius:22px;background:var(--panel);border:1px solid var(--line);text-align:center;position:relative;overflow:hidden}
+  .caja::after{content:"";position:absolute;left:0;top:0;width:100%;height:3px;background:var(--grad);opacity:.75}
+  .num{font-family:"Space Grotesk",sans-serif;font-size:64px;font-weight:700;letter-spacing:-3px;color:var(--green);line-height:1}
+  h1{font-family:"Space Grotesk",sans-serif;font-size:24px;font-weight:700;margin:10px 0 12px;letter-spacing:-.02em}
+  p{color:var(--muted);font-size:15px;line-height:1.6;margin:0 auto 26px;max-width:42ch}
+  .enlaces{display:flex;gap:11px;flex-wrap:wrap;justify-content:center}
+  a{
+    text-decoration:none;font-weight:600;font-size:14px;padding:12px 20px;border-radius:12px;
+    border:1px solid var(--line-strong);color:var(--text);display:inline-flex;align-items:center;
+    transition:transform .16s ease,border-color .16s ease;
+  }
+  a:hover{transform:translateY(-2px);border-color:var(--green)}
+  a.primary{background:var(--grad);color:#04120c;border-color:transparent}
+  @media(max-width:480px){.caja{padding:32px 22px}.num{font-size:52px}}
+</style>
+</head>
+<body>
+  <div class="caja">
+    <div class="num">404</div>
+    <h1>Esa página no existe</h1>
+    <p>Puede que el enlace esté mal escrito. Estas son las tres del proyecto:</p>
+    <div class="enlaces">
+      <a class="primary" href="/ecopunto-piloto/lab/">EcoPunto Lab</a>
+      <a href="/ecopunto-piloto/app/">EcoPunto Monitor</a>
+      <a href="/ecopunto-piloto/">La propuesta</a>
+    </div>
+  </div>
+</body>
+</html>
